@@ -23,4 +23,13 @@ var df = Dockerfile.Parse(new TextReader("Dockerfile"));
 ```
 
 # bugs
-Probably. File issues.
+Probably. [File issues.](https://github.com/brendandburns/dotnet-dockerfile/issues)
+
+# nuget
+```sh
+dotnet add package Dockerfile --version 1.0.0
+```
+
+[Dockerfile-1.0.0](https://www.nuget.org/packages/Dockerfile/1.0.0)
+
+
