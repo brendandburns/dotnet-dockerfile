@@ -6,14 +6,17 @@ This is a simple set of classes for parsing and generating Dockerfiles
 
 ## generation
 ```csharp
-var instructions = new List<Instruction>();
-instructions.Add(new Instruction("FROM", "debian:9"));
-instructions.Add(new Instruction("RUN", " apt-get update && apt-get install libunwind8 libicu57"));
-instructions.Add(new Instruction("COPY", string.Format("* /exe/", dir)));
-instructions.Add(new Instruction("CMD", string.Format("/exe/{0} {1}", exe, getArgs(args))));
-
-var df = new Dockerfile(instructions.ToArray(), new Comment[0]);
-File.WriteAllText(dir + "/Dockerfile", df.Contents());
+var df = new dockerfile.Dockerfile()
+    .WithLine(new Directive("escape", "\\"))
+    .WithLine(new Instruction("FROM", "debian:9"))
+    .WithEmptyLine()
+    .WithLine(new Comment("Some comment"))
+    .WithLine(new Instruction("RUN", "apt-get update && apt-get install libunwind8 libicu57"))
+    .WithEmptyLine()
+    .WithLine(new Instruction("COPY", "* /scripts"))
+    .WithEmptyLine()
+    .WithLine(new Instruction("CMD", "/scripts/run.sh -p1 -p2"));
+File.WriteAllText(dir + "/Dockerfile", df.Content);
 ```
 
 ## parsing
